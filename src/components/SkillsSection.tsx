@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Cpu, Target, Rocket, Lightbulb, GraduationCap } from "lucide-react";
 
@@ -71,12 +71,36 @@ const SkillCard = ({ category, index }: { category: typeof skillCategories[0]; i
 const SkillsSection = () => {
   const headerRef = useRef(null);
   const educationRef = useRef(null);
+  const sectionRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true });
   const isEducationInView = useInView(educationRef, { once: true });
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.2, 0.2, 0]);
+  const floatingY1 = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
+  const floatingY2 = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
 
   return (
-    <section className="py-24 relative">
-      <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+    <section className="py-24 relative overflow-hidden" ref={sectionRef}>
+      {/* Parallax Background */}
+      <motion.div 
+        className="absolute inset-0 bg-grid-pattern" 
+        style={{ opacity: gridOpacity }}
+      />
+      
+      {/* Parallax Floating Elements */}
+      <motion.div 
+        className="absolute top-10 right-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl"
+        style={{ y: floatingY1 }}
+      />
+      <motion.div 
+        className="absolute bottom-10 left-10 w-80 h-80 bg-primary/5 rounded-full blur-3xl"
+        style={{ y: floatingY2 }}
+      />
       
       <div className="container relative z-10 px-6">
         {/* Section Header */}

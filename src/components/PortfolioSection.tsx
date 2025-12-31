@@ -1,11 +1,12 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import { ChevronDown, Building2, Wrench, Zap, Droplets, Fuel, Factory } from "lucide-react";
+import { ChevronDown, Building2, Wrench, Zap, Droplets, Fuel, Factory, ExternalLink } from "lucide-react";
 
 const experiences = [
   {
     title: "Senior Mechanical Designer",
-    company: "Leading Energy Firm",
+    company: "APA Group",
+    companyUrl: "https://www.apa.com.au",
     period: "2023 - Present",
     icon: Zap,
     color: "primary",
@@ -19,7 +20,8 @@ const experiences = [
   },
   {
     title: "Piping & Mechanical Designer",
-    company: "Minerals Engineering Firm",
+    company: "GR Engineering",
+    companyUrl: "https://www.gres.com.au",
     period: "2021 - 2023",
     icon: Factory,
     color: "accent",
@@ -32,7 +34,8 @@ const experiences = [
   },
   {
     title: "Piping & Mechanical Designer",
-    company: "Utilities Infrastructure Firm",
+    company: "Downer Utilities",
+    companyUrl: "https://www.downergroup.com/utilities",
     period: "2018 - 2021",
     icon: Droplets,
     color: "primary",
@@ -45,7 +48,8 @@ const experiences = [
   },
   {
     title: "Piping & Mechanical Designer",
-    company: "Resources Development Firm",
+    company: "Mayur Resources",
+    companyUrl: "https://www.placltd.com",
     period: "Details in Full CV",
     icon: Building2,
     color: "accent",
@@ -53,18 +57,29 @@ const experiences = [
   },
   {
     title: "Piping & Mechanical Designer",
-    company: "Energy Solutions Firm",
+    company: "Wasco Energy",
+    companyUrl: "https://wascoenergy.com.au",
     period: "Details in Full CV",
     icon: Fuel,
     color: "primary",
     description: "Engineered gas/water pipelines for mine projects and gas upgrades, producing alignment sheets and routing masterpieces."
   },
   {
-    title: "Piping Designer",
-    company: "Engineering Consultancy",
+    title: "Piping & Mechanical Designer",
+    company: "King Resources",
+    companyUrl: "https://kingresources.com.au",
     period: "Details in Full CV",
     icon: Wrench,
     color: "accent",
+    description: "Delivered piping magic for pipeline projects with mechanical arrangements and construction deliverables."
+  },
+  {
+    title: "Piping Designer",
+    company: "Unidel AMEC",
+    companyUrl: null,
+    period: "Details in Full CV",
+    icon: Factory,
+    color: "primary",
     description: "As-built jet refueling bays, CSG gathering systems with 3D models, and upstream pipeline routings."
   }
 ];
@@ -94,8 +109,9 @@ const ExperienceCard = ({ exp, index }: { exp: typeof experiences[0]; index: num
         {/* Header */}
         <div className="p-6">
           <div className="flex items-start gap-4">
-            <div className={`p-3 rounded-lg ${exp.color === "primary" ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"}`}>
-              <Icon className="w-6 h-6" />
+            {/* Company Logo */}
+            <div className={`relative p-3 rounded-lg ${exp.color === "primary" ? "bg-primary/10" : "bg-accent/10"} overflow-hidden`}>
+              <Icon className={`w-6 h-6 ${exp.color === "primary" ? "text-primary" : "text-accent"}`} />
             </div>
             <div className="flex-1">
               <div className="flex items-start justify-between gap-4">
@@ -103,7 +119,23 @@ const ExperienceCard = ({ exp, index }: { exp: typeof experiences[0]; index: num
                   <h3 className="text-lg font-display font-semibold text-foreground group-hover:text-primary transition-colors">
                     {exp.title}
                   </h3>
-                  <p className="text-muted-foreground">{exp.company}</p>
+                  {exp.companyUrl ? (
+                    <a 
+                      href={exp.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors group/link"
+                    >
+                      <span className="relative">
+                        {exp.company}
+                        <span className="absolute bottom-0 left-0 w-0 h-px bg-primary transition-all duration-300 group-hover/link:w-full" />
+                      </span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300" />
+                    </a>
+                  ) : (
+                    <p className="text-muted-foreground">{exp.company}</p>
+                  )}
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-primary font-medium whitespace-nowrap">{exp.period}</span>
@@ -163,12 +195,34 @@ const ExperienceCard = ({ exp, index }: { exp: typeof experiences[0]; index: num
 
 const PortfolioSection = () => {
   const headerRef = useRef(null);
+  const sectionRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true });
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const floatingY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
 
   return (
-    <section id="portfolio" className="py-24 relative">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
+    <section id="portfolio" className="py-24 relative overflow-hidden" ref={sectionRef}>
+      {/* Parallax Background */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background"
+        style={{ y: backgroundY }}
+      />
+      
+      {/* Parallax Floating Elements */}
+      <motion.div 
+        className="absolute top-20 -left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
+        style={{ y: floatingY }}
+      />
+      <motion.div 
+        className="absolute bottom-20 -right-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+        style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "25%"]) }}
+      />
       
       <div className="container relative z-10 px-6">
         {/* Section Header */}
