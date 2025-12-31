@@ -1,7 +1,20 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Briefcase, Send } from "lucide-react";
+import { useRef } from "react";
 
 const HeroSection = () => {
+  const sectionRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const leftOrbY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const rightOrbY = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.5], [0.3, 0]);
+  
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -12,15 +25,28 @@ const HeroSection = () => {
   return (
     <section
       id="home"
+      ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-float" />
+      {/* Parallax Background Effects */}
+      <motion.div 
+        className="absolute inset-0 bg-grid-pattern" 
+        style={{ opacity: gridOpacity }}
+      />
+      <motion.div 
+        className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-glow"
+        style={{ y: leftOrbY }}
+      />
+      <motion.div 
+        className="absolute bottom-1/4 -right-32 w-80 h-80 bg-accent/15 rounded-full blur-3xl animate-float"
+        style={{ y: rightOrbY }}
+      />
       
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+      {/* Parallax Gradient Overlay */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"
+        style={{ y: backgroundY }}
+      />
 
       <div className="container relative z-10 px-6 pt-20">
         <div className="max-w-4xl mx-auto text-center">

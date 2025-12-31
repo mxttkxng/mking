@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { Send, MessageSquare, User } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
@@ -33,11 +33,31 @@ const ContactSection = () => {
     setIsSubmitting(false);
   };
 
+  const sectionRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
+
   return (
-    <section id="contact" className="py-24 relative">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-t from-card/50 to-background" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+    <section id="contact" className="py-24 relative overflow-hidden" ref={sectionRef}>
+      {/* Parallax Background */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-t from-card/50 to-background"
+        style={{ y: backgroundY }}
+      />
+      <motion.div 
+        className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+        style={{ y: orbY }}
+      />
+      <motion.div 
+        className="absolute top-20 right-1/4 w-64 h-64 bg-accent/8 rounded-full blur-3xl"
+        style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "30%"]) }}
+      />
       
       <div className="container relative z-10 px-6">
         <motion.div
