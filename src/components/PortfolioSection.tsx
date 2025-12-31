@@ -1,6 +1,6 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import { ChevronDown, Building2, Wrench, Zap, Droplets, Fuel, Factory, ExternalLink } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 
 const experiences = [
   {
@@ -8,7 +8,9 @@ const experiences = [
     company: "APA Group",
     companyUrl: "https://www.apa.com.au",
     period: "2023 - Present",
-    icon: Zap,
+    logoText: "APA",
+    logoColor: "bg-[#E41D24]",
+    textColor: "text-white",
     color: "primary",
     description: "Spearheaded asset uplift for 1,000+ facilities as key consultant liaison, delivering premium 3D models and intelligent P&IDs. Engineered smart data workflows into BIM360 and Datum360. Automated Plant 3D for faster, consistent designs.",
     highlights: [
@@ -23,7 +25,9 @@ const experiences = [
     company: "GR Engineering",
     companyUrl: "https://www.gres.com.au",
     period: "2021 - 2023",
-    icon: Factory,
+    logoText: "GR",
+    logoColor: "bg-[#1E3A5F]",
+    textColor: "text-[#C9A227]",
     color: "accent",
     description: "Powered major mining epics like tin operations paste backfill, 2.4 Mtpa gold projects, processing asset replacements, and more.",
     highlights: [
@@ -37,7 +41,9 @@ const experiences = [
     company: "Downer Utilities",
     companyUrl: "https://www.downergroup.com/utilities",
     period: "2018 - 2021",
-    icon: Droplets,
+    logoText: "D",
+    logoColor: "bg-[#00A3E0]",
+    textColor: "text-white",
     color: "primary",
     description: "Transformed water treatment giants including wastewater plant upgrades and sewage facilities. Delivered FEED and detailed designs with P&IDs, isometrics, and 3D layouts.",
     highlights: [
@@ -51,7 +57,9 @@ const experiences = [
     company: "Mayur Resources",
     companyUrl: "https://www.placltd.com",
     period: "Details in Full CV",
-    icon: Building2,
+    logoText: "PLC",
+    logoColor: "bg-[#F57C00]",
+    textColor: "text-white",
     color: "accent",
     description: "Fueled feasibility and design for industrial sands projects with layouts, flow diagrams, and 3D models."
   },
@@ -60,7 +68,9 @@ const experiences = [
     company: "Wasco Energy",
     companyUrl: "https://wascoenergy.com.au",
     period: "Details in Full CV",
-    icon: Fuel,
+    logoText: "W",
+    logoColor: "bg-[#1B3A4B]",
+    textColor: "text-[#F5A623]",
     color: "primary",
     description: "Engineered gas/water pipelines for mine projects and gas upgrades, producing alignment sheets and routing masterpieces."
   },
@@ -69,7 +79,9 @@ const experiences = [
     company: "King Resources",
     companyUrl: "https://kingresources.com.au",
     period: "Details in Full CV",
-    icon: Wrench,
+    logoText: "KR",
+    logoColor: "bg-[#1A1A1A]",
+    textColor: "text-white",
     color: "accent",
     description: "Delivered piping magic for pipeline projects with mechanical arrangements and construction deliverables."
   },
@@ -78,7 +90,9 @@ const experiences = [
     company: "Unidel AMEC",
     companyUrl: null,
     period: "Details in Full CV",
-    icon: Factory,
+    logoText: "UA",
+    logoColor: "bg-[#003366]",
+    textColor: "text-white",
     color: "primary",
     description: "As-built jet refueling bays, CSG gathering systems with 3D models, and upstream pipeline routings."
   }
@@ -88,7 +102,6 @@ const ExperienceCard = ({ exp, index }: { exp: typeof experiences[0]; index: num
   const [isExpanded, setIsExpanded] = useState(index === 0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const Icon = exp.icon;
 
   return (
     <motion.div
@@ -110,22 +123,22 @@ const ExperienceCard = ({ exp, index }: { exp: typeof experiences[0]; index: num
         <div className="p-6">
           <div className="flex items-start gap-4">
             {/* Company Logo */}
-            <div className={`relative p-3 rounded-lg ${exp.color === "primary" ? "bg-primary/10" : "bg-accent/10"} overflow-hidden`}>
-              <Icon className={`w-6 h-6 ${exp.color === "primary" ? "text-primary" : "text-accent"}`} />
+            <div className={`relative w-12 h-12 rounded-lg ${exp.logoColor} flex items-center justify-center overflow-hidden shrink-0`}>
+              <span className={`font-display font-bold text-sm ${exp.textColor}`}>
+                {exp.logoText}
+              </span>
             </div>
             <div className="flex-1">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="text-lg font-display font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {exp.title}
-                  </h3>
+                  {/* Company name first */}
                   {exp.companyUrl ? (
                     <a 
                       href={exp.companyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors group/link"
+                      className="inline-flex items-center gap-1.5 text-lg font-display font-semibold text-foreground hover:text-primary transition-colors group/link"
                     >
                       <span className="relative">
                         {exp.company}
@@ -134,8 +147,12 @@ const ExperienceCard = ({ exp, index }: { exp: typeof experiences[0]; index: num
                       <ExternalLink className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300" />
                     </a>
                   ) : (
-                    <p className="text-muted-foreground">{exp.company}</p>
+                    <p className="text-lg font-display font-semibold text-foreground">{exp.company}</p>
                   )}
+                  {/* Position/title second */}
+                  <p className="text-muted-foreground">
+                    {exp.title}
+                  </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-primary font-medium whitespace-nowrap">{exp.period}</span>
