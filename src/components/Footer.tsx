@@ -5,15 +5,7 @@ const Footer = () => {
   return (
     <footer className="py-8 border-t border-border bg-card/30">
       <div className="container px-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="text-sm text-muted-foreground"
-          >
-            © 2025 Senior Piping & Mechanical Designer. All rights reserved.
-          </motion.p>
+        <div className="flex items-center justify-center">
 
           <motion.a
             href="https://www.linkedin.com/in/myprofile"

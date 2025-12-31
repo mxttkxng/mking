@@ -58,7 +58,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            PMD<span className="text-primary">.</span>
+            <span className="text-2xl font-display font-bold text-primary">MK</span>
           </motion.a>
 
           {/* Desktop Navigation */}

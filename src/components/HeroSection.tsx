@@ -58,7 +58,7 @@ const HeroSection = () => {
             className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-primary/10 border border-primary/20 rounded-full"
           >
             <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <span className="text-sm text-primary font-medium">15+ Years of Excellence</span>
+            <span className="text-sm text-primary font-medium">Matt King</span>
           </motion.div>
 
           {/* Main Headline */}
