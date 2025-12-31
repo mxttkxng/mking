@@ -50,16 +50,6 @@ const HeroSection = () => {
 
       <div className="container relative z-10 px-6 pt-20">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-primary/10 border border-primary/20 rounded-full"
-          >
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <span className="text-sm text-primary font-medium">Matt King</span>
-          </motion.div>
 
           {/* Main Headline */}
           <motion.h1
