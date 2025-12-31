@@ -120,26 +120,41 @@ const SkillsSection = () => {
         </motion.div>
 
         {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-16">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-20">
           {skillCategories.map((category, index) => (
             <SkillCard key={category.title} category={category} index={index} />
           ))}
         </div>
 
-        {/* Education */}
+        {/* Education Section Header */}
         <motion.div
           ref={educationRef}
           initial={{ opacity: 0, y: 30 }}
           animate={isEducationInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto"
+          className="text-center mb-12"
         >
-          <div className="p-6 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20">
+          <span className="text-primary text-sm font-medium uppercase tracking-widest mb-4 block">
+            Academic Background
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground">
+            Education & <span className="text-gradient">Certifications</span>
+          </h2>
+        </motion.div>
+
+        {/* Education Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isEducationInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="p-6 rounded-xl bg-card/50 border border-border hover:border-primary/30 transition-all duration-500">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
                 <GraduationCap className="w-5 h-5" />
               </div>
-              <h3 className="font-display font-semibold text-foreground text-lg">Education & Certifications</h3>
+              <h3 className="font-display font-semibold text-foreground text-lg">Qualifications</h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
               {education.map((item, i) => (
