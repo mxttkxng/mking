@@ -111,9 +111,6 @@ const SkillsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary text-sm font-medium uppercase tracking-widest mb-4 block">
-            Technical Prowess
-          </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
             Skills <span className="text-gradient">Spotlight</span>
           </h2>
@@ -134,9 +131,6 @@ const SkillsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-primary text-sm font-medium uppercase tracking-widest mb-4 block">
-            Academic Background
-          </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground">
             Education & <span className="text-gradient">Certifications</span>
           </h2>
