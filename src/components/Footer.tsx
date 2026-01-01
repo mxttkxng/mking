@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex items-center justify-center">
 
           <motion.a
-            href="https://www.linkedin.com/in/myprofile"
+            href="https://www.linkedin.com/in/mattking88/"
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0 }}
